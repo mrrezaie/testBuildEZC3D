@@ -53,9 +53,9 @@ jobs:
       
     - name: Build ezc3d on WINDOWS
       run: |
-        set PYTHON_PATH= $PYTHON/Lib/site-packages/ezc3d
-        set BUILD_PATH = $env:GITHUB_WORKSPACE\\build
-        echo  PYTHON_PATH
+        set PYTHON_PATH=$PYTHON/Lib/site-packages/ezc3d
+        set BUILD_PATH=$env:GITHUB_WORKSPACE\\build
+        echo PYTHON_PATH
         echo  BUILD_PATH
         mkdir BUILD_PATH
         chdir BUILD_PATH
