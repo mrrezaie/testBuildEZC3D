@@ -22,9 +22,10 @@ jobs:
 
     - name: Check files
       run: |
-        cd
+        D:
+        cd D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d
         dir
-        
+
     - name: Get number of CPU cores
       uses: SimenB/github-actions-cpu-cores@v1
       id: cpu-cores
@@ -49,7 +50,7 @@ jobs:
         miniforge-version: latest
         python-version: '3.12'
         # use-mamba: true
-        environment-file: environment.yml
+        # environment-file: environment.yml
       
     - name: Print conda info
       run: |
