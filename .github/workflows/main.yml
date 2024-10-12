@@ -54,17 +54,17 @@ jobs:
     - name: Build ezc3d on WINDOWS
       run: |
         set PYTHON_PATH=$PYTHON/Lib/site-packages/ezc3d
-        set BUILD_PATH=$env:GITHUB_WORKSPACE\\build
-        echo PYTHON_PATH
-        echo  BUILD_PATH
-        mkdir BUILD_PATH
-        chdir BUILD_PATH
+        # set BUILD_PATH=$env:GITHUB_WORKSPACE\\build
+        # echo PYTHON_PATH
+        # echo  BUILD_PATH
+        # mkdir BUILD_PATH
+        # chdir BUILD_PATH
+        chdir PYTHON_PATH
 
-        cmake $env:GITHUB_WORKSPACE/ezc3d -G"Visual Studio 17 2022" -Ax64 -DCMAKE_INSTALL_PREFIX=BUILD_PATH -DPYTHON_INSTALL_PREFIX=PYTHON_PATH -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON
+        cmake $env:GITHUB_WORKSPACE/ezc3d -G"Visual Studio 17 2022" -Ax64 -DCMAKE_INSTALL_PREFIX=PYTHON_PATH -DPYTHON_INSTALL_PREFIX=PYTHON_PATH -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON
         cmake --build . --config Release --target install -- /maxcpucount:4
 
         dir PYTHON_PATH
-        dir BUILD_PATH
 
     # - name: Check files
     #   run: |
