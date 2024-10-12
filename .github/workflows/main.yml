@@ -51,9 +51,9 @@ jobs:
 
     - name: Build ezc3d on WINDOWS
       run: |
-        # echo  $env:GITHUB_WORKSPACE\\build
-        # mkdir $env:GITHUB_WORKSPACE\\build
-        # chdir $env:GITHUB_WORKSPACE\\build
+        echo  $env:GITHUB_WORKSPACE\\build
+        mkdir $env:GITHUB_WORKSPACE\\build
+        chdir $env:GITHUB_WORKSPACE\\build
 
         cmake -G"Visual Studio 17 2022" -Ax64 -CMAKE_INSTALL_PREFIX=$env:GITHUB_WORKSPACE/ezc3d -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON
         cmake --build . --config Release --target install -- /maxcpucount:4
