@@ -8,80 +8,154 @@ on:
 env:
   BUILD_FOLDER: build
 
+
+
+
+on: 
+  release: 
+    types: [published]
+
+env:
+  BUILD_FOLDER: build
+
 jobs:
-  windows:
-    name: Windows
-    runs-on: windows-latest
+  build:
+    strategy:
+      matrix:
+        os: [windows-latest]
+        include:
+          - os: windows-latest
+            label: win-64
+            prefix: C:\Miniconda3\envs\ezc3d
+    name: ${{ matrix.label }}
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash -l {0}
     steps:
-
-    - name: Checkout ezc3d main
-      uses: actions/checkout@v4
-      with:
-         repository: pyomeca/ezc3d
-         path: 'ezc3d'
-
-    # - name: Check files
-    #   run: |
-    #     D:
-    #     cd D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d
-    #     dir
-
-    - name: Install Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.12'
-
-    # - name: Check files
-    #   run: |
-    #     echo  $PYTHON
-
-    - name: Install NumPy 
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install setuptools wheel
-        python -m pip install numpy==1.26 skbuild
-
-    # - name: Install Git
-    #   run: choco install git
-
-    # - name: Install CMake
-    #   run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
-
-    - name: Install SWIG
-      run: |
-        choco install swig
+      - name: Checkout code
+        uses: actions/checkout@v4
       
-    - name: Build ezc3d on WINDOWS
-      run: |
-        # set PYTHON_PATH=$PYTHON/Lib/site-packages/ezc3d
-        # set BUILD_PATH=$env:GITHUB_WORKSPACE\\build
-        # echo PYTHON_PATH
-        # echo  BUILD_PATH
-        # mkdir BUILD_PATH
-        # chdir BUILD_PATH
-        # chdir PYTHON_PATH
+      - name: Get number of CPU cores
+        uses: SimenB/github-actions-cpu-cores@v1
+        id: cpu-cores
 
-        # echo ~\\build_core
-        # mkdir ~\\build_core
-        # chdir ~\\build_core
+      - name: Setup environment
+        uses: conda-incubator/setup-miniconda@v2
+        with:
+          miniforge-variant: Mambaforge
+          miniforge-version: latest
+          use-mamba: true
+        
+      - name: Print mamba info
+        run: |
+          mamba info
+          mamba list
+          
+      - name: Install dependencies
+        run: |
+          mamba install cmake git pkgconfig -cconda-forge
+          mamba list
+          git submodule update --init --recursive
 
-        # cmake $env:GITHUB_WORKSPACE/ezc3d -G"Visual Studio 17 2022" -Ax64 -DCMAKE_INSTALL_PREFIX=~\\build_core -DPYTHON_INSTALL_PREFIX=~\\build_core -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON
-        # cmake --build . --config Release --target install -- /maxcpucount:4
+      
+      - name: Build ezc3d on WINDOWS
+        run: |
+          MAIN_FOLDER=`pwd`
+          CONDA_ENV_PATH=$CONDA/envs/ezc3d
+          mkdir -p $BUILD_FOLDER
+          cd $BUILD_FOLDER
+          cmake -G"Visual Studio 17 2022" -Ax64 -DCMAKE_INSTALL_PREFIX=$CONDA_ENV_PATH -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON ..
+          cmake --build . --config Release --target install -j${{ steps.cpu-cores.outputs.count }}
+          cd $MAIN_FOLDER
+        if: matrix.label == 'win-64'
 
-        # dir ~\\build_core
-
-        cd $env:GITHUB_WORKSPACE/ezc3d 
-        python .\setup.py develop -- -G"Visual Studio 17 2022" -A x64
-
-
-    # - name: Check files
-    #   run: |
-    #     cd
-    #     dir
+      - name: Build Python archives on WINDOWS
+        run: |
+          7z a ezc3d_python_${{ matrix.label }}.zip $HOME/ezc3d_python
+        if: matrix.label == 'win-64'
 
     - name: Upload ezc3d
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        path: $env:GITHUB_WORKSPACE/ezc3d 
-        # path: C:/Users/runneradmin/ezc3d_python
+        path: $HOME/ezc3d_python
+
+
+# jobs:
+#   windows:
+#     name: Windows
+#     runs-on: windows-latest
+#     steps:
+
+#     - name: Checkout ezc3d main
+#       uses: actions/checkout@v4
+#       with:
+#          repository: pyomeca/ezc3d
+#          path: 'ezc3d'
+
+#     # - name: Check files
+#     #   run: |
+#     #     D:
+#     #     cd D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d
+#     #     dir
+
+#     - name: Install Python
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: '3.12'
+
+#     # - name: Check files
+#     #   run: |
+#     #     echo  $PYTHON
+
+#     - name: Install NumPy 
+#       run: |
+#         python -m pip install --upgrade pip
+#         python -m pip install setuptools wheel
+#         python -m pip install numpy==1.26
+
+#     # - name: Install Git
+#     #   run: choco install git
+
+#     # - name: Install CMake
+#     #   run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
+
+#     - name: Install SWIG
+#       run: |
+#         choco install swig
+      
+#     - name: Build ezc3d on WINDOWS
+#       run: |
+#         # set PYTHON_PATH=$PYTHON/Lib/site-packages/ezc3d
+#         # set BUILD_PATH=$env:GITHUB_WORKSPACE\\build
+#         # echo PYTHON_PATH
+#         # echo  BUILD_PATH
+#         # mkdir BUILD_PATH
+#         # chdir BUILD_PATH
+#         # chdir PYTHON_PATH
+
+#         # echo ~\\build_core
+#         # mkdir ~\\build_core
+#         # chdir ~\\build_core
+
+#         # cmake $env:GITHUB_WORKSPACE/ezc3d -G"Visual Studio 17 2022" -Ax64 -DCMAKE_INSTALL_PREFIX=~\\build_core -DPYTHON_INSTALL_PREFIX=~\\build_core -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON
+#         # cmake --build . --config Release --target install -- /maxcpucount:4
+
+#         # dir ~\\build_core
+
+#         cd $env:GITHUB_WORKSPACE/ezc3d 
+#         python .\setup.py develop -- -G"Visual Studio 17 2022" -A x64
+
+
+#     # - name: Check files
+#     #   run: |
+#     #     cd
+#     #     dir
+
+#     - name: Upload ezc3d
+#       uses: actions/upload-artifact@v4
+#       with:
+#         name: ezc3d-win-py312
+#         path: $env:GITHUB_WORKSPACE/ezc3d 
+#         # path: C:/Users/runneradmin/ezc3d_python
