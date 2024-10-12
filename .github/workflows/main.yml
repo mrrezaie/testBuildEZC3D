@@ -41,17 +41,18 @@ jobs:
       with:
         # miniforge-variant: Mambaforge
         miniforge-version: latest
-        use-mamba: true
+        python-version: '3.12'
+        # use-mamba: true
       
-    - name: Print mamba info
+    - name: Print conda info
       run: |
-        mamba info
-        mamba list
+        conda info
+        conda list
         
     - name: Install dependencies
       run: |
-        mamba install cmake git pkgconfig -cconda-forge
-        mamba list
+        conda install cmake git pkgconfig -cconda-forge
+        conda list
         git submodule update --init --recursive
 
     - name: Build ezc3d on WINDOWS
