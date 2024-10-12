@@ -66,4 +66,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        path: C:/Users/runneradmin/ezc3d-install
+        path: C:/hostedtoolcache/windows/Python/3.12.7/x64/Lib/site-packages/ezc3d
