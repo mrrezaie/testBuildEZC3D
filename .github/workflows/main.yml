@@ -11,9 +11,7 @@ env:
 jobs:
   windows:
     name: Windows
-
     runs-on: windows-latest
-
     steps:
 
     - name: Checkout ezc3d main
@@ -22,6 +20,11 @@ jobs:
          repository: pyomeca/ezc3d
          path: 'ezc3d'
 
+    - name: Check files
+      run: |
+        cd
+        dir
+        
     - name: Get number of CPU cores
       uses: SimenB/github-actions-cpu-cores@v1
       id: cpu-cores
