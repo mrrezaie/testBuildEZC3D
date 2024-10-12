@@ -20,11 +20,11 @@ jobs:
          repository: pyomeca/ezc3d
          path: 'ezc3d'
 
-    - name: Check files
-      run: |
-        D:
-        cd D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d
-        dir
+    # - name: Check files
+    #   run: |
+    #     D:
+    #     cd D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d
+    #     dir
 
     # - name: Install Git
     #   run: choco install git
@@ -35,8 +35,6 @@ jobs:
     - name: Install SWIG
       run: |
         choco install swig
-        # choco install swig --yes --limit-output --allow-downgrade
-        # swig -swiglib
       
     - name: Install Python
       uses: actions/setup-python@v4
@@ -57,15 +55,15 @@ jobs:
 
         cmake $env:GITHUB_WORKSPACE/ezc3d -G"Visual Studio 17 2022" -Ax64 -DCMAKE_INSTALL_PREFIX=~/ezc3d-install -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTS=OFF -DBUILD_DOC=OFF -DBUILD_EXAMPLE=OFF -DUSE_MATRIX_FAST_ACCESSOR=OFF -DBINDER_MATLAB=OFF -DBINDER_PYTHON3=ON
         cmake --build . --config Release --target install -- /maxcpucount:4
+        cmake --install .
 
-    - name: Check files
-      run: |
-        cd
-        dir
+    # - name: Check files
+    #   run: |
+    #     cd
+    #     dir
 
     - name: Upload ezc3d
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        # path: $env:GITHUB_WORKSPACE\\ezc3d
         path: C:/Users/runneradmin/ezc3d-install
