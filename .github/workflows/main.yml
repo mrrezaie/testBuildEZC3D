@@ -67,4 +67,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        path: $env:GITHUB_WORKSPACE\\ezc3d
+        # path: $env:GITHUB_WORKSPACE\\ezc3d
+        path: D:\a\testBuildEZC3D\testBuildEZC3D\build
