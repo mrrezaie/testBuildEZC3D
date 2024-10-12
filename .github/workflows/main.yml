@@ -70,8 +70,7 @@ jobs:
         cmake --build . --config Release --target install -- /maxcpucount:4
 
         dir ~\\build
-
-        cd $env:GITHUB_WORKSPACE/ezc3d 
+        dir ~\\ezc3d_python
 
     # - name: Check files
     #   run: |
