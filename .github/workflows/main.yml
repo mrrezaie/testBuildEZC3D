@@ -51,7 +51,7 @@ jobs:
         
     - name: Install dependencies
       run: |
-        conda install cmake git pkgconfig -cconda-forge
+        conda install -c conda-forge cmake git pkgconfig
         conda list
         git submodule update --init --recursive
 
