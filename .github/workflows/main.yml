@@ -66,4 +66,4 @@ jobs:
       with:
         name: ezc3d-win-py312
         # path: ~/build
-        path: $env:GITHUB_WORKSPACE/ezc3d
+        path: $env:GITHUB_WORKSPACE/ezc3d/dist
