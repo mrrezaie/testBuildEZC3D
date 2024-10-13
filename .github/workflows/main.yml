@@ -66,4 +66,5 @@ jobs:
       with:
         name: ezc3d-win-py312
         # path: ~/build
-        path: D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d\dist
+        # path: D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d\dist
+        path: /**/dist/*.whl
