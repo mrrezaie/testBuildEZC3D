@@ -56,10 +56,9 @@ jobs:
         cmake --build . --config Release --target install -- /maxcpucount:4
 
         dir ~/build
-        dir C:/ProgramData/chocolatey/bin
 
     - name: Upload ezc3d
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        path: ~/build/ezc3d_python
+        path: ~/build
