@@ -62,3 +62,4 @@ jobs:
       with:
         name: ezc3d-win-py312
         path: ~/build/ezc3d-1.5.12-cp312-cp312-win_amd64.whl
+        compression-level: 0
