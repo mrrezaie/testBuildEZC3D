@@ -47,9 +47,8 @@ jobs:
     # - name: Install CMake
     #   run: choco install cmake --installargs 'ADD_CMAKE_TO_PATH=System'
 
-    - name: Install SWIG
-      run: |
-        choco install swig
+    # - name: Install SWIG
+    #   run: choco install swig
       
     - name: Build ezc3d on WINDOWS
       run: |
