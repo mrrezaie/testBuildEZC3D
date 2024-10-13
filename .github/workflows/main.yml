@@ -57,6 +57,10 @@ jobs:
         chdir $env:GITHUB_WORKSPACE/ezc3d
         python setup.py sdist bdist_wheel -- -G"Visual Studio 17 2022" -A x64
 
+        dir $env:GITHUB_WORKSPACE/ezc3d
+        dir $env:GITHUB_WORKSPACE/ezc3d/dist
+
+
     - name: Upload ezc3d
       uses: actions/upload-artifact@v4
       with:
