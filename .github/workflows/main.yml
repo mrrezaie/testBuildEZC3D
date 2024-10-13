@@ -28,7 +28,7 @@ jobs:
     - name: Install numpy and scikit-build
       run: |
         python -m pip install --upgrade pip
-        python -m pip install setuptools wheel numpy==1.26 scikit-build
+        python -m pip install numpy==1.26 scikit-build
 
 
     # - name: Install Git
@@ -61,4 +61,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        path: ~/build/ezc3d*.whl
+        path: ~/build/ezc3d-1.5.12-cp312-cp312-win_amd64.whl
