@@ -20,26 +20,19 @@ jobs:
          repository: pyomeca/ezc3d
          path: 'ezc3d'
 
-    # - name: Check files
-    #   run: |
-    #     D:
-    #     cd D:\a\testBuildEZC3D\testBuildEZC3D\ezc3d
-    #     dir
-
     - name: Install Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
-
-    # - name: Check files
-    #   run: |
-    #     echo  $PYTHON
 
     - name: Install NumPy 
       run: |
         python -m pip install --upgrade pip
         python -m pip install setuptools wheel
         python -m pip install numpy==1.26
+
+    - name: List Choco
+      run: choco list
 
     # - name: Install Git
     #   run: choco install git
@@ -70,14 +63,8 @@ jobs:
         dir ~\\build
         dir C:/ProgramData/chocolatey/bin
 
-    # - name: Check files
-    #   run: |
-    #     cd
-    #     dir
-
     - name: Upload ezc3d
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
         path: ~\\build\\ezc3d_python
-        # path: C:/Users/runneradmin/ezc3d_python
