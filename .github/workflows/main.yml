@@ -68,6 +68,7 @@ jobs:
         cmake --build . --config Release --target install -- /maxcpucount:4
 
         dir ~\\build
+        dir C:/ProgramData/chocolatey/bin
 
     # - name: Check files
     #   run: |
