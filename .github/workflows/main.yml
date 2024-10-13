@@ -54,7 +54,7 @@ jobs:
         # dir ~/build
 
         chdir $env:GITHUB_WORKSPACE/ezc3d
-        python setup.py sdist bdist_wheel -G"Visual Studio 17 2022" -A x64
+        python setup.py sdist bdist_wheel --dist-dir ~/ezc3d_python -- -G"Visual Studio 17 2022" -A x64
 
         dir $env:GITHUB_WORKSPACE/ezc3d
         dir $env:GITHUB_WORKSPACE/ezc3d/dist
