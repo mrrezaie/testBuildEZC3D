@@ -60,5 +60,5 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: ezc3d-win-py312
-        path: ~/*whl
+        path: ~/*.whl
         compression-level: 0
